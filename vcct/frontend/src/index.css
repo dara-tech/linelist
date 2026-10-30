@@ -1,0 +1,139 @@
+@import './fonts.css';
+@import url('https://fonts.googleapis.com/css2?family=Moul&family=Battambang:wght@400;700;900&family=Bayon&family=Google+Sans:opsz,GRAD@17..18,-50..200&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Hanuman:wght@400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --app-canvas: #f8fafc;
+    --app-page: #f8fafc;
+    --app-surface: #ffffff;
+    --app-surface-muted: #f1f5f9;
+    --app-border: #e2e8f0;
+    --app-text: #0f172a;
+    --app-text-muted: #475569;
+    --app-text-subtle: #64748b;
+    
+    --color-blue-500: #2c6693;
+    --color-blue-600: #205075;
+    --app-header-bar-bg: #2c6693;
+    --app-header-bar-bg-hover: #205075;
+    --app-header-bar-rgb: 44 102 147;
+    
+    --app-radius: 0.375rem;
+    --app-control-h: 2rem;
+    
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 206 54% 37%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 206 54% 37%;
+    --radius: 0.375rem;
+  }
+}
+
+html, body {
+  font-family: 'Krasar', 'Kantumruy Pro', 'Hanuman', 'Google Sans', system-ui, -apple-system, sans-serif;
+  background-color: var(--app-canvas);
+  color: var(--app-text);
+  margin: 0;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+}
+
+/* npdcapture Filter Button */
+.app-filter-control {
+  height: 2rem;
+  border-radius: var(--app-radius);
+  border: 1px solid var(--app-border);
+  background-color: var(--app-surface);
+  padding: 0 0.625rem;
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.app-filter-control:hover {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.app-filter-control.active {
+  background-color: rgba(var(--app-header-bar-rgb) / 0.10);
+  border-color: var(--app-header-bar-bg);
+  color: var(--app-header-bar-bg);
+}
+
+/* Crisp Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.font-moul {
+  font-family: 'Moul', 'Khmer OS Muol Light', serif;
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 8mm 10mm;
+  }
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "name": "VCCT Custom Line List",
+  "description": "DHIS2 Custom Line List application bridging main_dbs VCCT patient records with DHIS2 OrgUnits",
+  "appType": "APP",
+  "launch_path": "index.html",
+  "icons": {
+    "48": "icon.png"
+  },
+  "developer": {
+    "name": "HIV / VCCT Program Team",
+    "url": "https://his.moh.gov.kh"
+  },
+  "default_locale": "en",
+  "activities": {
+    "dhis": {
+      "href": "*"
+    }
+  }
+}
