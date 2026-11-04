@@ -7,12 +7,14 @@ import {
   getArtVcctSummaryReport, 
   exportArtVcctReportExcel,
   getArtVcctSiteReport,
-  exportArtVcctSiteReportExcel
+  exportArtVcctSiteReportExcel,
+  getActiveArtReport
 } from '../controllers/reportController.js';
 import {
   getDataQualitySummary,
   getDataQualityRecords,
-  exportDataQualityExcel
+  exportDataQualityExcel,
+  getDataQualityConsistencyYoY,
 } from '../controllers/dataQualityController.js';
 
 const router = express.Router();
@@ -36,12 +38,16 @@ router.get('/analysis/metrics', getAnalysisMetrics);
 
 // Data Quality Validation & Auditing
 router.get('/data-quality/summary', getDataQualitySummary);
+router.get('/data-quality/consistency/yoy', getDataQualityConsistencyYoY);
 router.get('/data-quality/records', getDataQualityRecords);
 router.get('/data-quality/export/excel', exportDataQualityExcel);
 
 // National Provincial Reports (ART & VCCT)
 router.get('/reports/art-vcct-summary', getArtVcctSummaryReport);
 router.get('/reports/art-vcct-summary/excel', exportArtVcctReportExcel);
+
+// Indicator 10 Active ART Patients Report (10_active_art_current.sql)
+router.get('/reports/active-art-current', getActiveArtReport);
 
 // Facility / Site-Level Breakdown Reports (ART & VCCT Breakdown by Site)
 router.get('/reports/art-vcct-sites', getArtVcctSiteReport);

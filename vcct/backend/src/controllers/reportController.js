@@ -1,34 +1,10 @@
 import { getDbPool } from '../config/db.js';
 import ExcelJS from 'exceljs';
-
-// Official National Baseline Data from NCHADS (Quarter 2, 2026) for all 25 Provinces
-export const OFFICIAL_PROVINCIAL_BASELINE = [
-  { no: 1, province_id: 12, province_kh: 'ភ្នំពេញ', province_en: 'Phnom Penh', art_sites: 14, plhiv_total: 26849, plhiv_female: 10274, vcct_sites: 15, reactive_total: 536, reactive_female: 78 },
-  { no: 2, province_id: 2, province_kh: 'បាត់ដំបង', province_en: 'Battambang', art_sites: 6, plhiv_total: 5974, plhiv_female: 2864, vcct_sites: 6, reactive_total: 57, reactive_female: 14 },
-  { no: 3, province_id: 17, province_kh: 'សៀមរាប', province_en: 'Siem Reap', art_sites: 4, plhiv_total: 5299, plhiv_female: 2380, vcct_sites: 3, reactive_total: 94, reactive_female: 27 },
-  { no: 4, province_id: 1, province_kh: 'បន្ទាយមានជ័យ', province_en: 'Banteay Meanchey', art_sites: 5, plhiv_total: 4216, plhiv_female: 2012, vcct_sites: 5, reactive_total: 77, reactive_female: 23 },
-  { no: 5, province_id: 3, province_kh: 'កំពង់ចាម', province_en: 'Kampong Cham', art_sites: 5, plhiv_total: 3242, plhiv_female: 1609, vcct_sites: 5, reactive_total: 34, reactive_female: 11 },
-  { no: 6, province_id: 14, province_kh: 'ព្រៃវែង', province_en: 'Prey Veng', art_sites: 3, plhiv_total: 3035, plhiv_female: 1659, vcct_sites: 3, reactive_total: 44, reactive_female: 13 },
-  { no: 7, province_id: 21, province_kh: 'តាកែវ', province_en: 'Takeo', art_sites: 5, plhiv_total: 2974, plhiv_female: 1545, vcct_sites: 5, reactive_total: 68, reactive_female: 22 },
-  { no: 8, province_id: 8, province_kh: 'កណ្តាល', province_en: 'Kandal', art_sites: 3, plhiv_total: 2738, plhiv_female: 1380, vcct_sites: 3, reactive_total: 36, reactive_female: 14 },
-  { no: 9, province_id: 18, province_kh: 'ព្រះសីហនុ', province_en: 'Preah Sihanouk', art_sites: 1, plhiv_total: 2337, plhiv_female: 1009, vcct_sites: 1, reactive_total: 50, reactive_female: 15 },
-  { no: 10, province_id: 7, province_kh: 'កំពត', province_en: 'Kampot', art_sites: 2, plhiv_total: 2335, plhiv_female: 1232, vcct_sites: 2, reactive_total: 25, reactive_female: 5 },
-  { no: 11, province_id: 5, province_kh: 'កំពង់ស្ពឺ', province_en: 'Kampong Speu', art_sites: 3, plhiv_total: 2221, plhiv_female: 1012, vcct_sites: 3, reactive_total: 46, reactive_female: 9 },
-  { no: 12, province_id: 25, province_kh: 'ត្បូងឃ្មុំ', province_en: 'Tboung Khmum', art_sites: 3, plhiv_total: 1791, plhiv_female: 847, vcct_sites: 3, reactive_total: 31, reactive_female: 3 },
-  { no: 13, province_id: 15, province_kh: 'ពោធិ៍សាត់', province_en: 'Pursat', art_sites: 3, plhiv_total: 1592, plhiv_female: 771, vcct_sites: 3, reactive_total: 23, reactive_female: 5 },
-  { no: 14, province_id: 20, province_kh: 'ស្វាយរៀង', province_en: 'Svay Rieng', art_sites: 2, plhiv_total: 1554, plhiv_female: 807, vcct_sites: 2, reactive_total: 32, reactive_female: 10 },
-  { no: 15, province_id: 6, province_kh: 'កំពង់ធំ', province_en: 'Kampong Thom', art_sites: 3, plhiv_total: 1290, plhiv_female: 634, vcct_sites: 3, reactive_total: 42, reactive_female: 16 },
-  { no: 16, province_id: 4, province_kh: 'កំពង់ឆ្នាំង', province_en: 'Kampong Chhnang', art_sites: 2, plhiv_total: 1211, plhiv_female: 559, vcct_sites: 2, reactive_total: 31, reactive_female: 15 },
-  { no: 17, province_id: 9, province_kh: 'កោះកុង', province_en: 'Koh Kong', art_sites: 2, plhiv_total: 1049, plhiv_female: 551, vcct_sites: 2, reactive_total: 10, reactive_female: 2 },
-  { no: 18, province_id: 10, province_kh: 'ក្រចេះ', province_en: 'Kratie', art_sites: 1, plhiv_total: 708, plhiv_female: 352, vcct_sites: 1, reactive_total: 16, reactive_female: 10 },
-  { no: 19, province_id: 22, province_kh: 'ឧត្តរមានជ័យ', province_en: 'Oddar Meanchey', art_sites: 2, plhiv_total: 634, plhiv_female: 326, vcct_sites: 2, reactive_total: 5, reactive_female: 2 },
-  { no: 20, province_id: 19, province_kh: 'ស្ទឹងត្រែង', province_en: 'Stung Treng', art_sites: 1, plhiv_total: 466, plhiv_female: 227, vcct_sites: 1, reactive_total: 5, reactive_female: 2 },
-  { no: 21, province_id: 24, province_kh: 'ប៉ៃលិន', province_en: 'Pailin', art_sites: 1, plhiv_total: 434, plhiv_female: 243, vcct_sites: 1, reactive_total: 3, reactive_female: 0 },
-  { no: 22, province_id: 13, province_kh: 'ព្រះវិហារ', province_en: 'Preah Vihear', art_sites: 1, plhiv_total: 407, plhiv_female: 197, vcct_sites: 1, reactive_total: 9, reactive_female: 2 },
-  { no: 23, province_id: 16, province_kh: 'រតនគិរី', province_en: 'Ratanakiri', art_sites: 1, plhiv_total: 332, plhiv_female: 168, vcct_sites: 1, reactive_total: 1, reactive_female: 0 },
-  { no: 24, province_id: 23, province_kh: 'កែប', province_en: 'Kep', art_sites: 1, plhiv_total: 118, plhiv_female: 68, vcct_sites: 1, reactive_total: 2, reactive_female: 1 },
-  { no: 25, province_id: 11, province_kh: 'មណ្ឌលគិរី', province_en: 'Mondulkiri', art_sites: 1, plhiv_total: 92, plhiv_female: 51, vcct_sites: 1, reactive_total: 4, reactive_female: 2 },
-];
+import {
+  getActiveArtDataset,
+  getActiveArtByProvinceMap,
+  getActiveArtBySiteMap
+} from '../services/activeArtService.js';
 
 function resolvePeriodDates(query) {
   let quarter = query.quarter || '2';
@@ -69,7 +45,7 @@ function resolvePeriodDates(query) {
 }
 
 async function queryDynamicProvincialReport(dateFrom, dateTo) {
-  let provincesData = OFFICIAL_PROVINCIAL_BASELINE.map((item) => ({ ...item }));
+  let provincesData = [];
   try {
     const pool = getDbPool();
 
@@ -92,96 +68,42 @@ async function queryDynamicProvincialReport(dateFrom, dateTo) {
       [dateFrom, dateTo]
     );
 
-    // 2. Dynamic ART active sites up to dateTo
-    let artSiteMap = new Map();
+    // 2. Dynamic Active ART by Province (following official Indicator 10 logic)
+    let artProvMap = new Map();
     try {
-      const [artSiteRows] = await pool.query(
-        `
-        SELECT s.province_id, COUNT(DISTINCT a.site_code) as active_art_sites
-        FROM tblprovince p
-        JOIN tblsites s ON s.province_id = p.id AND s.status_id = 1
-        JOIN tblaart a ON a.site_code = CONVERT(s.art_site_code USING utf8mb3) COLLATE utf8mb3_general_ci
-        WHERE a.DaArt <= ? AND a.DaArt != '1900-01-01'
-        GROUP BY s.province_id
-        `,
-        [dateTo]
-      );
-      if (artSiteRows && artSiteRows.length > 0) {
-        artSiteRows.forEach((r) => {
-          artSiteMap.set(r.province_id, Number(r.active_art_sites || 0));
-        });
-      }
-    } catch (siteErr) {
-      console.warn('Note: art_sites query fallback:', siteErr.message);
-    }
-
-    // 3. Dynamic ART cohort delta relative to Q2 2026 anchor (2026-06-30)
-    const ANCHOR_DATE = '2026-06-30';
-    let artDeltaMap = new Map();
-
-    try {
-      if (dateTo < ANCHOR_DATE) {
-        const [deltaRows] = await pool.query(
-          `
-          SELECT s.province_id, COUNT(DISTINCT a.ClinicID) as delta_starters
-          FROM tblprovince p
-          JOIN tblsites s ON s.province_id = p.id AND s.status_id = 1
-          JOIN tblaart a ON a.site_code = CONVERT(s.art_site_code USING utf8mb3) COLLATE utf8mb3_general_ci
-          WHERE a.DaArt > ? AND a.DaArt <= ?
-          GROUP BY s.province_id
-          `,
-          [dateTo, ANCHOR_DATE]
-        );
-        deltaRows.forEach((r) => {
-          artDeltaMap.set(r.province_id, -Number(r.delta_starters || 0));
-        });
-      } else if (dateTo > ANCHOR_DATE) {
-        const [deltaRows] = await pool.query(
-          `
-          SELECT s.province_id, COUNT(DISTINCT a.ClinicID) as delta_starters
-          FROM tblprovince p
-          JOIN tblsites s ON s.province_id = p.id AND s.status_id = 1
-          JOIN tblaart a ON a.site_code = CONVERT(s.art_site_code USING utf8mb3) COLLATE utf8mb3_general_ci
-          WHERE a.DaArt > ? AND a.DaArt <= ?
-          GROUP BY s.province_id
-          `,
-          [ANCHOR_DATE, dateTo]
-        );
-        deltaRows.forEach((r) => {
-          artDeltaMap.set(r.province_id, Number(r.delta_starters || 0));
-        });
-      }
-    } catch (deltaErr) {
-      console.warn('Note: artDelta query fallback:', deltaErr.message);
+      artProvMap = await getActiveArtByProvinceMap(dateTo);
+    } catch (artErr) {
+      console.warn('Note: getActiveArtByProvinceMap error:', artErr.message);
     }
 
     if (dynamicVcctRows && dynamicVcctRows.length > 0) {
-      provincesData = OFFICIAL_PROVINCIAL_BASELINE.map((base) => {
-        const foundVcct = dynamicVcctRows.find((r) => r.province_id === base.province_id);
-        const activeSites = artSiteMap.get(base.province_id);
-        const delta = artDeltaMap.get(base.province_id) || 0;
+      provincesData = dynamicVcctRows.map((r, idx) => {
+        const dynamicArt = artProvMap.get(r.province_id);
 
-        const dynamicPlhivTotal = Math.max(0, base.plhiv_total + delta);
-        const femaleRatio = base.plhiv_total > 0 ? base.plhiv_female / base.plhiv_total : 0.45;
-        const dynamicPlhivFemale = Math.round(dynamicPlhivTotal * femaleRatio);
-
-        const dynamicArtSites = activeSites !== undefined && activeSites > 0
-          ? activeSites
-          : base.art_sites;
+        const dynamicPlhivTotal = dynamicArt ? dynamicArt.plhiv_total : 0;
+        const dynamicPlhivFemale = dynamicArt ? dynamicArt.plhiv_female : 0;
+        const dynamicPlhivMale = dynamicArt ? dynamicArt.plhiv_male : 0;
+        const dynamicPlhivChild = dynamicArt ? dynamicArt.plhiv_child : 0;
+        const dynamicArtSites = dynamicArt ? dynamicArt.active_art_sites : 0;
 
         return {
-          ...base,
+          no: idx + 1,
+          province_id: r.province_id,
+          province_kh: r.province_kh,
+          province_en: r.province_en,
           art_sites: dynamicArtSites,
           plhiv_total: dynamicPlhivTotal,
           plhiv_female: dynamicPlhivFemale,
-          vcct_sites: Number(foundVcct?.vcct_sites || base.vcct_sites),
-          reactive_total: Number(foundVcct?.reactive_total || 0),
-          reactive_female: Number(foundVcct?.reactive_female || 0),
+          plhiv_male: dynamicPlhivMale,
+          plhiv_child: dynamicPlhivChild,
+          vcct_sites: Number(r.vcct_sites || 0),
+          reactive_total: Number(r.reactive_total || 0),
+          reactive_female: Number(r.reactive_female || 0),
         };
       });
     }
   } catch (dbErr) {
-    console.warn('Note: Using official NCHADS benchmark data (db read info):', dbErr.message);
+    console.error('queryDynamicProvincialReport error:', dbErr.message);
   }
   return provincesData;
 }
@@ -264,7 +186,10 @@ export async function exportArtVcctReportExcel(req, res) {
     const h2 = sheet.getCell('A2');
     h2.value = 'ជាតិ សាសនា ព្រះមហាក្សត្រ';
     h2.font = { name: 'Khmer OS Muol Light', size: 11, bold: true };
-    h2.alignment = { horizontal: 'right', vertical: 'middle' };
+    h2.alignmen
+
+
+    t = { horizontal: 'right', vertical: 'middle' };
 
     // 2. Report Title
     sheet.mergeCells('A4:G4');
@@ -506,29 +431,13 @@ export async function queryDynamicSiteReport(query = {}) {
     });
   });
 
-  // 3. ART cohort by site
+  // 3. ART cohort by site using official Indicator 10 logic
   let artMap = new Map();
   try {
-    const [artRows] = await pool.query(
-      `
-      SELECT 
-        a.site_code,
-        COUNT(DISTINCT a.ClinicID) as active_plhiv,
-        SUM(CASE WHEN m.Sex = 0 THEN 1 ELSE 0 END) as female_plhiv
-      FROM tblaart a
-      LEFT JOIN tblaimain m ON a.site_code = m.site_code AND a.ClinicID = m.ClinicID
-      WHERE a.DaArt <= ? AND a.DaArt != '1900-01-01'
-      GROUP BY a.site_code
-      `,
-      [dateTo]
-    );
-
-    artRows.forEach((r) => {
-      artMap.set(r.site_code, {
-        active_plhiv: Number(r.active_plhiv || 0),
-        female_plhiv: Number(r.female_plhiv || 0),
-      });
-    });
+    const siteActiveMap = await getActiveArtBySiteMap(dateTo);
+    if (siteActiveMap && siteActiveMap.size > 0) {
+      artMap = siteActiveMap;
+    }
   } catch (artErr) {
     console.warn('Note: art cohort query warning in site report:', artErr.message);
   }
@@ -541,9 +450,18 @@ export async function queryDynamicSiteReport(query = {}) {
       linked_total: 0,
     };
     const art = artMap.get(s.art_site_code) || {
-      active_plhiv: 0,
-      female_plhiv: 0,
+      total_active: 0,
+      female_active: 0,
+      male_active: 0,
+      child_active: 0,
+      adult_active: 0,
     };
+
+    const activePlhiv = Number(art.total_active || 0);
+    const femalePlhiv = Number(art.female_active || 0);
+    const malePlhiv = Number(art.male_active || 0);
+    const childPlhiv = Number(art.child_active || 0);
+    const adultPlhiv = Number(art.adult_active || 0);
 
     const yieldRate = vcct.total_tested > 0
       ? ((vcct.reactive_total / vcct.total_tested) * 100).toFixed(1)
@@ -564,8 +482,11 @@ export async function queryDynamicSiteReport(query = {}) {
       od_name: s.od_name || '-',
       province_id: s.province_id,
       province_name: s.province_name,
-      plhiv_total: art.active_plhiv,
-      plhiv_female: art.female_plhiv,
+      plhiv_total: activePlhiv,
+      plhiv_female: femalePlhiv,
+      plhiv_male: malePlhiv,
+      plhiv_child: childPlhiv,
+      plhiv_adult: adultPlhiv,
       vcct_tested_total: vcct.total_tested,
       vcct_reactive_total: vcct.reactive_total,
       vcct_reactive_female: vcct.reactive_female,
@@ -853,6 +774,34 @@ export async function exportArtVcctSiteReportExcel(req, res) {
     res.end();
   } catch (err) {
     console.error('exportArtVcctSiteReportExcel error:', err);
+    return res.status(500).json({ success: false, error: err.message });
+  }
+}
+
+/**
+ * Pure READ-ONLY: Indicator 10 Active ART Patients in Current Quarter
+ * Follows 10_active_art_current.sql official definition
+ */
+export async function getActiveArtReport(req, res) {
+  try {
+    const { dateTo, quarter, year } = resolvePeriodDates(req.query);
+    const data = await getActiveArtDataset(dateTo);
+    return res.json({
+      success: true,
+      data: {
+        indicator: data.nationalSummary.indicator,
+        period: {
+          endDate: data.endDate,
+          quarter,
+          year,
+        },
+        summary: data.nationalSummary,
+        by_province: Array.from(data.provinceMap.values()),
+        by_site: Array.from(data.siteMap.values()),
+      },
+    });
+  } catch (err) {
+    console.error('getActiveArtReport error:', err);
     return res.status(500).json({ success: false, error: err.message });
   }
 }

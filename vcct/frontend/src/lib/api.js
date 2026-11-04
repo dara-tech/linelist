@@ -75,6 +75,11 @@ export async function fetchDataQualitySummary(params = {}) {
   return data;
 }
 
+export async function fetchDataQualityConsistencyYoY(params = {}) {
+  const { data } = await api.get('/data-quality/consistency/yoy', { params });
+  return data;
+}
+
 export async function fetchDataQualityRecords(params = {}) {
   const { data } = await api.get('/data-quality/records', { params });
   return data;
@@ -115,6 +120,11 @@ export async function triggerFileDownload(url, filename) {
     }
     window.URL.revokeObjectURL(blobUrl);
   }, 1000);
+}
+
+export async function fetchActiveArtCurrent(params = {}) {
+  const { data } = await api.get('/reports/active-art-current', { params });
+  return data;
 }
 
 export default api;

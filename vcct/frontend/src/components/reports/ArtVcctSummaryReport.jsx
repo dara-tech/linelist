@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { 
-  Download, 
-  Printer, 
-  Building2, 
-  Users, 
-  Activity, 
-  ShieldCheck, 
+import {
+  Download,
+  Printer,
+  Building2,
+  Users,
+  Activity,
+  ShieldCheck,
   ArrowUpDown,
   CheckCircle2,
   MapPin,
@@ -125,8 +125,8 @@ export function ArtVcctSummaryReport({ filters = {}, provinces = [], refreshTrig
     let list = reportData.filter((item) => {
       // 1. Top Toolbar Province Filter
       if (selectedProvinceName) {
-        const provMatch = 
-          item.province_kh.includes(selectedProvinceName) || 
+        const provMatch =
+          item.province_kh.includes(selectedProvinceName) ||
           item.province_en.toLowerCase().includes(selectedProvinceName.toLowerCase());
         if (!provMatch) return false;
       }
@@ -178,12 +178,12 @@ export function ArtVcctSummaryReport({ filters = {}, provinces = [], refreshTrig
     );
   }, [filteredAndSortedList]);
 
-  const plhivFemalePct = totals.plhiv_total > 0 
-    ? ((totals.plhiv_female / totals.plhiv_total) * 100).toFixed(1) 
+  const plhivFemalePct = totals.plhiv_total > 0
+    ? ((totals.plhiv_female / totals.plhiv_total) * 100).toFixed(1)
     : '0';
 
-  const reactiveFemalePct = totals.reactive_total > 0 
-    ? ((totals.reactive_female / totals.reactive_total) * 100).toFixed(1) 
+  const reactiveFemalePct = totals.reactive_total > 0
+    ? ((totals.reactive_female / totals.reactive_total) * 100).toFixed(1)
     : '0';
 
   const [zoom, setZoom] = useState(100);
@@ -318,7 +318,7 @@ export function ArtVcctSummaryReport({ filters = {}, provinces = [], refreshTrig
 
       {/* 2. Realistic A4 Paper Sheet Preview Area */}
       <div className="flex-1 p-3 sm:p-6 md:p-8 flex justify-center items-start print:p-0 print:block">
-        <div 
+        <div
           style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
           className="print-page w-full max-w-[1140px] bg-white shadow-[0_10px_35px_rgba(0,0,0,0.10)] border border-slate-300/80 rounded-xs p-6 sm:p-10 md:p-12 transition-transform duration-150 print:max-w-none print:shadow-none print:border-none print:p-0 print:m-0"
         >
@@ -416,8 +416,8 @@ export function ArtVcctSummaryReport({ filters = {}, provinces = [], refreshTrig
                 {filteredAndSortedList.map((row, index) => {
                   const isEven = index % 2 === 1;
                   return (
-                    <tr 
-                      key={row.no} 
+                    <tr
+                      key={row.no}
                       className={`transition-colors hover:bg-emerald-50/70 ${isEven ? 'bg-[#fcfdfa]' : 'bg-white'}`}
                     >
                       {/* No. */}

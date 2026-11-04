@@ -6,7 +6,10 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "dev": "node --watch src/server.js",
+    "deploy": "python deploy/deploy_remote.py",
+    "deploy:sync": "python deploy/sync_quick.py",
+    "deploy:watch": "python deploy/watch_deploy.py"
   },
   "dependencies": {
     "cors": "^2.8.5",
