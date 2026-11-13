@@ -45,6 +45,9 @@ export const DQ_RULES_CONFIG = {
     recommendation: 'ផ្ទៀងផ្ទាត់សំណាក និងលទ្ធផលតេស្តឡើងវិញជាបន្ទាន់ មុននឹងបញ្ជូនទៅព្យាបាល ART។',
   },
 
+
+
+
   // 6. V0.1 HIV Test Result Inconclusive or Not Selected
   v01_inconclusive_or_empty: {
     id: 'v01_inconclusive_or_empty',
@@ -818,10 +821,10 @@ export async function exportDataQualityExcel(req, res) {
     worksheet.getRow(4).height = 24;
     worksheet.getRow(4).eachCell((cell) => {
       cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: 'FFFFFFFF' } };
-      cell.fill = { 
-        type: 'pattern', 
-        pattern: 'solid', 
-        fgColor: { argb: 'FFBE123C' } 
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFBE123C' }
       };
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
     });
